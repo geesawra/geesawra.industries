@@ -32,19 +32,22 @@ jobs:
         run: hugo -d html-output
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
+        with:
+          toolchain: "nightly"
       - name: Checkout atpage
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: geesawra/atpage
+          path: atpage
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Nuke existing site
-        run: cargo xtask nuke --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+        run: cargo -C atpage -Z unstable-options xtask nuke --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
       - name: ls
         run: ls -la html-output
       - run: ls -la
       - name: Upload new site files
-        run: cargo xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src html-output
+        run: cargo -C atpage -Z unstable-options xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src html-output
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
       - name: Upload artifact
