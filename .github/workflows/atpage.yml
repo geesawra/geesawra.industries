@@ -30,8 +30,6 @@ jobs:
           extended: true
       - name: Build website
         run: hugo -d html-output
-      - name: ls
-        run: ls -la html-output
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
       - name: Checkout atpage
@@ -42,6 +40,9 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Nuke existing site
         run: cargo xtask nuke --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+      - name: ls
+        run: ls -la html-output
+      - run: ls -la
       - name: Upload new site files
         run: cargo xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src html-output
       - name: Setup Pages
