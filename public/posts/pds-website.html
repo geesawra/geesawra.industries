@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hosting a website on your ATProto PDS | geesawra.industries</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/style.css">
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/posts.html">Posts</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Hosting a website on your ATProto PDS</span></h1>
+<h3 class="author">Authored by geesawra</h3>
+<h3 class="date">2024/12/16</h3>
+</div>
+
+<main>
+<p>I built a thing called <a href="https://github.com/geesawra/atpage"><code>atpage</code></a>, it publishes websites to an ATProto PDS and provides a handy viewer tool.</p>
+<p>You can find it <a href="https://github.com/geesawra/atpage">here</a>.</p>
+<hr>
+<p>Have you ever wanted to host a fully-fledged website on your <a href="https://atproto.com/">ATProto</a> <a href="https://atproto.com/guides/glossary#pds-personal-data-server">PDS</a>?</p>
+<p>No?</p>
+<p>Too bad, it&rsquo;s gonna happen anyway.</p>
+<blockquote>
+<p><strong>Disclaimer</strong>: <em>I&rsquo;m not an ATProto expert, I may very well be doing nasty stuff, please do not emulate!</em></p>
+</blockquote>
+<h2 id="how-it-works">How it works</h2>
+<p>In ATProto, objects can be uniquely identified by an <a href="https://atproto.com/specs/at-uri-scheme">AT URI</a>, made up of three components:</p>
+<ul>
+<li><strong>User identifier</strong>: can either be a DID, or an @-handle<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</li>
+<li><strong>Collection name</strong>: essentially the &ldquo;table name&rdquo; of ATProto, containing a set of well-defined objects called <em>records</em>.</li>
+<li><strong>Record key</strong>: a string that uniquely identifies the record.</li>
+</ul>
+<p>This is an example of an AT URI:</p>
+<pre tabindex="0"><code>at://geesawra.industries/industries.geesawra.website/0J5SYQ0SVQTKF
+</code></pre><p><code>geesawra.industries</code> is the user identifier, <code>industries.geesawra.website</code> is the collection name, while <code>0J5SYQ0SVQTKF</code> is the record key.</p>
+<p>You can see the raw content of the record associated to this AT URI <a href="https://pdsls.dev/at/did:plc:6ll5xi67lyuyovt6fiv4fnjo/industries.geesawra.website/0J5SYQ0SVQTKF">here</a>.</p>
+<p><code>atpage</code> is made of a series of components:</p>
+<ul>
+<li>Lexicon definition</li>
+<li>Web viewer</li>
+<li>Publishing tool</li>
+</ul>
+<p>The sum of these components allows you to publish websites on an ATProto PDS, and view them in a web browser without third-party services intervention.</p>
+<h3 id="lexicon-definition">Lexicon definition</h3>
+<p>Records needs schemas, which in ATProto terms are called <strong><a href="https://atproto.com/guides/glossary#lexicon">Lexicons</a></strong>.</p>
+<p>A web page contains HTML, which can reference resources like CSS, JavaScript, images or even other HTML pages.</p>
+<p>The most basic lexicon would contain just the HTML for a page, but in <code>atpage</code> <em>every resource</em> that would be loaded from the same origin <em>must</em> live on the PDS: no half-measures.</p>
+<p>In order to do that, I decided to store referenced objects as <strong>blobs</strong>, and the page content in a <code>Page</code> lexicon record:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;lexicon&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;industries.geesawra.website.page&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;defs&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;main&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;record&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;A record holding the content of a page, addressable by its record key&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;any&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;record&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;object&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;required&#34;</span>: [<span style="color:#e6db74">&#34;content&#34;</span>],
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;properties&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;content&#34;</span>: { <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span> },
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;embeds&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;array&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;items&#34;</span>: {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;blob&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;accept&#34;</span>: [<span style="color:#e6db74">&#34;*&#34;</span>]
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Blobs are an interesting beast: they can contain arbitrary data, and are referenced and keyed by the PDS at upload time.</p>
+<p>The Bluesky <a href="https://docs.bsky.app/docs/api/com-atproto-repo-upload-blob">documentation</a> for the <code>com.atproto.repo.uploadBlob</code> method says:</p>
+<blockquote>
+<p>The blob will be deleted if it is not referenced within a time window (eg, minutes).</p>
+</blockquote>
+<p>The implications are two-fold:</p>
+<ul>
+<li>If your page contains CSS in a referenced resource, it must be uploaded as a blob and referenced in the <code>embeds</code> lexicon field.</li>
+<li>If you delete a page, the associated blobs will be deleted automatically as well.</li>
+</ul>
+<p>Neat!</p>
+<h3 id="web-viewer">Web viewer</h3>
+<p>The original <code>atpage</code> design started as a proof-of-concept around the idea of referencing data from a PDS, <strong>without</strong> using third-party servers: the browser should be able to solve AT URIs and display its content as a web page.</p>
+<p>Let&rsquo;s say Firefox or Chrome decided to natively support <code>atpage</code>&rsquo;s Lexicon, an AT URI resolution process would look like this:</p>
+<ol>
+<li>Validate and split the AT URI in its parts.</li>
+<li>Solve the <a href="https://atproto.com/guides/glossary#did-decentralized-id">DID</a> document to look up the PDS URL associated with the user identifier.</li>
+<li>Fetch the specified record from the associated collection from said PDS URL.</li>
+</ol>
+<p>I focused on making sure that this flow would work without forking Chrome and/or Firefox to add this functionality.</p>
+<p>Armed with lots of patience and a healthy dose of stubbornness, I ventured my way into the Mozilla MDN Web Docs in search of inspiration and guidance.</p>
+<p>I&rsquo;m a little rusty<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> on web technologies, but a quick search opened my mind about <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers">Service Workers</a>: <strong>you can intercept <code>fetch</code> calls with them</strong>!</p>
+<p>A Service Worker-based solution for the flow I outlined earlier looks like this:
+0. Install the Service Worker (<code>SW</code>) as soon as possible, blocking everything else in the meantime.</p>
+<ol>
+<li>Browser does a <code>fetch</code>.</li>
+<li><code>SW</code> intercepts the <code>fetch</code> call.</li>
+<li>Check if the request URL&rsquo;s first path component is <code>/at</code>, if not returns without replacing the request content.</li>
+<li>If yes, do as explained earlier.</li>
+</ol>
+<p>I wanted to keep the browser experience as seamless as possible: clicking on a link that points to an AT URI must yield the same outcome as clicking on an HTTP URL.</p>
+<p>You still need to host an <code>index.html</code> page that loads the Service Worker, but once that&rsquo;s installed, you can browse AT URIs seamlessly.</p>
+<p>If you noticed, <a href="https://geesawra.industries">geesawra.industries</a> shows a loading page first, then redirects the user to an AT URI which contains the equivalent of an <code>index.html</code>.</p>
+<h4 id="a-quick-rust-detour">A quick Rust detour</h4>
+<p>I&rsquo;m in a phase of my life in which I&rsquo;m seeking change, and as a lifelong Gopher I figured &ldquo;change&rdquo; in this context means <strong>Rust</strong>: I decided that this thing should be written in it, compiling down to a WebAssembly blob because I don&rsquo;t know JavaScript.</p>
+<p>On top of that, at the moment Go WASM binary size doesn&rsquo;t scale down well as Rust&rsquo;s, it also made sense from a technological perspective: the total binary size is roughly 104KB uncompressed, ~40KB compressed!</p>
+<p>To achieve this result, I had to:</p>
+<ul>
+<li>Write a small ATProto abstraction, focusing on bringing along just what&rsquo;s needed for <code>atpage</code> to work.</li>
+<li>Don&rsquo;t throw around as many <code>#[derive(Debug)]</code> as I usually do.</li>
+<li>Use <a href="https://docs.rs/serde_json/latest/serde_json/value/enum.Value.html"><code>serde_json::Value</code></a> to navigate ATProto <code>JSON</code> responses rather than <code>derive</code>-ing serializers/deserializers at compile time.</li>
+<li>Leverage the browser&rsquo;s <code>fetch()</code> method and <code>Request</code> object through the magical <a href="https://docs.rs/web-sys/latest/web_sys/"><code>web_sys</code></a> crate instead of bringing in dependencies like <a href="https://docs.rs/reqwest/latest/reqwest/"><code>reqwest</code></a>.</li>
+</ul>
+<p>Tooling like <a href="https://github.com/rustwasm/wasm-bindgen"><code>wasm-bindgen</code></a> are a godsend: incredibly powerful and very well documented.</p>
+<p>I had to <a href="https://bsky.app/profile/geesawra.industries/post/3ld57lg6jek2b">jump through</a> <a href="https://github.com/geesawra/atpage/commit/f897ec00de6cdcabc0b3445d4e1d9ceb22d5c829">some hoops</a> to make <code>atpage</code> work on Firefox as well since it <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1360870">lacks support</a> for ES2015 JavaScript modules, but in the end I was able to implement it thanks to helpful folks on the Rust Discord server.</p>
+<h3 id="publishing-tool">Publishing tool</h3>
+<p>Client rendering is done, but how do I publish my website?</p>
+<p><a href="https://github.com/geesawra/atpage/tree/main/publish"><code>publish</code></a> is a small CLI tool that publishes the content of a directory, the <code>source</code> directory, on the specified PDS for the logged-in user.</p>
+<p>Publishing is a two-step process:</p>
+<ol>
+<li>Find all HTML files.</li>
+<li>Find all tags with an <code>src</code> or <code>href</code> attribute.</li>
+</ol>
+<p>To do that, <code>publish</code> recursively explores the <code>source</code> directory looking for HTML files.</p>
+<p>For example, let&rsquo;s say your website <code>source</code> directory is <code>./my-website</code> and it looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ tree ./my-website/
+</span></span><span style="display:flex;"><span>./my-website/
+</span></span><span style="display:flex;"><span>├── dog.jpg
+</span></span><span style="display:flex;"><span>└── index.html
+</span></span></code></pre></div><p>and the <code>index.html</code> file contains an image like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>		&lt;<span style="color:#f92672">h1</span>&gt;Hello!&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>		&lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/dog.jpg&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>During step 1, <code>publish</code> will find the <code>index.html</code> file, then during step 2 it will look for <code>./my-website/dog.jpg</code>: any resource that&rsquo;s missing on disk will stop the process.</p>
+<p>It also provides a handy <code>nuke</code> command, whenever you feel a lil crazy and want to get rid of your PDS-hosted website.</p>
+<h3 id="conclusions">Conclusions</h3>
+<p><code>atpage</code> has been an interesting experiment, it allowed me to space out of my comfort zone and explore ideas &ldquo;just because&rdquo;: I should do that more often.</p>
+<p>Sure, there are still some rough corners here and there, but where&rsquo;s the fun without a little uncertainty?</p>
+<p>I think it&rsquo;s also important to highlight the limitations that this approach imposes on the users: without a JavaScript-enabled browser, it&rsquo;s impossible to browse a website powered by <code>atpage</code>.</p>
+<p>It must also be said that&rsquo;s requiring a decentralized network, a Service Worker, WebAssembly and the Rust programming language to look at what would otherwise be a statically-generated website is over-engineered, silly and most probably goofy as well.</p>
+<p>That said, tread lightly, and have fun hosting websites on your PDSes!</p>
+<h3 id="update-1-16-dec-2024">Update 1 (16 Dec, 2024)</h3>
+<p>Right after posting a link to this post, it occurred to me that in order to load it you first need to navigate to the root of the website, have the Service Worker install itself and then navigate back to the original link: too inconvenient!</p>
+<p>As a workaround, I pushed a <a href="https://github.com/geesawra/atpage/commit/30e66b37178f1d71a3740236a21e5ccae45fc9fe">hot-fix</a> and modified my Caddy configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>geesawra.industries {
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">+	redir /at/* /?redir={uri} permanent
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>	root * /geesawra.industries
+</span></span><span style="display:flex;"><span>	file_server
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If the Service Worker is installed already, navigating to an <code>/at/{AT URI}</code> page will go through it, but if it isn&rsquo;t, redirect it to <code>/</code>, allow for the initial setup to happen and then redirect to the <code>redir</code> value, if and only if <code>uri</code> begins with <code>/at/</code>.</p>
+<h3 id="update-2-19-dec-2024">Update 2 (19 Dec, 2024)</h3>
+<p>Instead of relying on redirects, a better fix for the issue described in <strong>Update 1</strong> is to handle all <code>/at/</code> URLs with the same code, and distinguish between index or sub-page navigation by checking <code>window.location.pathname</code>.</p>
+<p><a href="https://github.com/geesawra/atpage/commit/4bb871f036e1756250d6a52b530ddfb8f5e58d54">This commit</a> implements the described change.</p>
+<p>The Caddy configuration looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span>geesawra.industries {
+</span></span><span style="display:flex;"><span><span style="color:#f92672">- redir /at/* /?redir={uri} permanent
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+ handle /at/* {
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+         root * /geesawra.industries
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">+ }
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span>	root * /geesawra.industries
+</span></span><span style="display:flex;"><span>	file_server
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Handles can change, so it is best to use DIDs in AT URIs.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>I.e. I know basically zero.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://geesawra.industries">geesawra</a> 2024 &ndash; 2024 | <a href="https://github.com/geesawra">Github</a> | <a href="https://bsky.app/profile/geesawra.industries">Bluesky</a>
+  
+  </footer>
+  </body>
+</html>
+

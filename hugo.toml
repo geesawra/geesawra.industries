@@ -1,0 +1,23 @@
+baseURL = 'https://geesawra.industries/'
+languageCode = 'en-us'
+title = 'geesawra.industries'
+
+theme = 'hugo-xmin'
+uglyURLs = true
+
+[[menu.main]]
+name = "Home"
+url = ""
+weight = 1
+
+[[menu.main]]
+name = "Posts"
+url = "/posts.html"
+weight = 2
+
+[params]
+description = "Beware of the unhinged posting"
+footer = "&copy; [geesawra](https://geesawra.industries) 2024 -- {Year} | [Github](https://github.com/geesawra) | [Bluesky](https://bsky.app/profile/geesawra.industries)"
+
+[markup.goldmark.renderer]
+unsafe= true

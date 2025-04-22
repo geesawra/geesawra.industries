@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on geesawra.industries</title>
+    <link>https://localhost:8000/</link>
+    <description>Recent content in Home on geesawra.industries</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 16 Dec 2024 20:23:02 +0100</lastBuildDate>
+    <atom:link href="https://localhost:8000/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hosting a website on your ATProto PDS</title>
+      <link>https://localhost:8000/posts/pds-website.html</link>
+      <pubDate>Mon, 16 Dec 2024 20:23:02 +0100</pubDate>
+      <guid>https://localhost:8000/posts/pds-website.html</guid>
+      <description>I built a thing called atpage, it publishes websites to an ATProto PDS and provides a handy viewer tool.&#xA;You can find it here.&#xA;Have you ever wanted to host a fully-fledged website on your ATProto PDS?&#xA;No?&#xA;Too bad, it&amp;rsquo;s gonna happen anyway.&#xA;Disclaimer: I&amp;rsquo;m not an ATProto expert, I may very well be doing nasty stuff, please do not emulate!&#xA;How it works In ATProto, objects can be uniquely identified by an AT URI, made up of three components:</description>
+    </item>
+    <item>
+      <title>How?</title>
+      <link>https://localhost:8000/posts/how.html</link>
+      <pubDate>Wed, 11 Dec 2024 16:45:03 +0100</pubDate>
+      <guid>https://localhost:8000/posts/how.html</guid>
+      <description>Cock?&#xA;Balls, even?&#xA;:wqa</description>
+    </item>
+    <item>
+      <title>Posts</title>
+      <link>https://localhost:8000/posts.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://localhost:8000/posts.html</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
