@@ -29,6 +29,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: geesawra/atpage
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Compile
         run: cargo xtask compile "at://did:plc:6ll5xi67lyuyovt6fiv4fnjo/industries.geesawra.website/f7f425394cd3733777e91c3dece9ad244d091cb0993db61c4e03732e33199919"
       # - name: Setup Pages
