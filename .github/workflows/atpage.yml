@@ -31,7 +31,7 @@ jobs:
       - name: Build website
         run: hugo -d html-output
       - name: ls
-        run: ls -la
+        run: ls -la html-output
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
       - name: Checkout atpage
