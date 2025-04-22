@@ -45,12 +45,11 @@ jobs:
         run: cargo -C atpage -Z unstable-options xtask nuke --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
       - name: Upload new site files
         run: cargo -C atpage -Z unstable-options xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src ../html-output
-      - name: Setup Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: "atpage/public"
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+          apiToken: ${{ secrets.CF_PAGES_KEY }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy atpage/public --project-name=geesawra-industries
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
