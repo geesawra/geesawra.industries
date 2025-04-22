@@ -22,24 +22,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@75d2e84710de30f6ff7268e08f310b60ef14033f
+        with:
+          hugo-version: "latest"
+          extended: true
+      - name: Build website
+        run: hugo -d html-output
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
       - name: Checkout atpage
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: geesawra/atpage
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Compile
         run: cargo xtask compile "at://did:plc:6ll5xi67lyuyovt6fiv4fnjo/industries.geesawra.website/f7f425394cd3733777e91c3dece9ad244d091cb0993db61c4e03732e33199919"
-      # - name: Setup Pages
-      #   uses: actions/configure-pages@v5
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v3
-      #   with:
-      #     # Upload entire repository
-      #     path: "."
-      # - name: Deploy to GitHub Pages
-      #   id: deployment
-      #   uses: actions/deploy-pages@v4
+      - name: Nuke existing site
+        run: cargo xtask nuke --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+      - name: Upload new site files
+        run: cargo xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src html-output
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: "public"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
