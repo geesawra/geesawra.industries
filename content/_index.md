@@ -13,7 +13,7 @@ If you found this page, it was through HackerNews or Bluesky.
 Something about me:
 
  - I'm a computer individual with production experience in Go and Rust
- - I'm available for hire!
+ - I'm ~~available for hire!~~ happily employed!
  - I'm a cyclist with a strong passion for dirt-related disciplines
  - I pretend to hear the difference between compressed and uncompressed music files.
 
