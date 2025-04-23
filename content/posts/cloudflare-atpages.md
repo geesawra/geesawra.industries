@@ -13,6 +13,8 @@ After some initial success, I quickly encountered the same issue I had during th
 
 I [complained on Bluesky](https://bsky.app/profile/geesawra.industries/post/3lng6cbuqss2z) and it turns out **Cloudflare Pages** allows you to do custom redirects and stuff like that, for free, without hosting anything yourself.
 
+{{< bskypost src=https://bsky.app/profile/geesawra.industries/post/3lng6cbuqss2z >}}
+
 I wanted to replicate the same workflow as any common Hugo user, which boils down to `git commit`, `git push` and poof, your new blogpost is available on your website.
 
 Setting up GitHub Actions wasn't as bad as I expected: I cloned the blog sources repo, cloned atpage in a subdirectory, called Hugo to obtain the rendered HTML, then `atpage post` to post it on my PDS, easy!
