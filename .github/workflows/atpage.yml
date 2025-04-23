@@ -60,12 +60,12 @@ jobs:
         run: cargo -C atpage -Z unstable-options xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src ../html-output
       - name: Apply redirects
         run: cp _redirects atpage/public
-      # - name: Deploy to Cloudflare Pages
-      #   id: cf-pages-deploy
-      #   uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65
-      #   with:
-      #     apiToken: ${{ secrets.CF_PAGES_KEY }}
-      #     accountId: ${{ secrets.CF_ACCOUNT_ID }}
-      #     command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
-      #     # Optional: Enable this if you want to have GitHub Deployments triggered
-      #     gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Cloudflare Pages
+        id: cf-pages-deploy
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65
+        with:
+          apiToken: ${{ secrets.CF_PAGES_KEY }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
