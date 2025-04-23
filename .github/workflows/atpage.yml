@@ -53,7 +53,7 @@ jobs:
             --username ${{ secrets.USERNAME }} \
             --password ${{ secrets.PASSWORD }} \
             --src ../html-output \
-            --opengraph-path ../html-output/opengraph.tags
+            --extra-head ../html-output/opengraph.tags
       - name: Apply redirects
         run: cp _redirects atpage/public
       - name: Deploy to Cloudflare Pages
