@@ -11,7 +11,7 @@ I recently played with [`atpage`](https://github.com/geesawra/atpage) again afte
 
 After some initial success, I quickly encountered the same issue I had during the [first iteration](/posts/pds-website.html): you can't easily hotlink a blog post online and expect it to work, because the Service Worker is only installed when visiting the website's root.
 
-I [complained on Bluesky](https://bsky.app/profile/geesawra.industries/post/3lng6cbuqss2z) and turns out Cloudflare Pages allows you to do custom redirects and stuff like that, for free, without hosting anything yourself.
+I [complained on Bluesky](https://bsky.app/profile/geesawra.industries/post/3lng6cbuqss2z) and it turns out **Cloudflare Pages** allows you to do custom redirects and stuff like that, for free, without hosting anything yourself.
 
 I wanted to replicate the same workflow as any common Hugo user, which boils down to `git commit`, `git push` and poof, your new blogpost is available on your website.
 
@@ -40,6 +40,10 @@ This is how I do it with `_redirects`:
 ```
 
 By moving to Cloudflare Pages I also gained access to very business tooling, like staging and production environments: whatever isn't the `main` branch is automatically treated as staging, and you also get a deploy-specific URL to go look at your staging website!
+
+I use GitHub environments to have all the fancy UI/UX goodies, like a "click here to see your staging prod" button in PRs, or the deus ex machina, branch protection rules.
+
+Each environment is tied to a specific Bluesky account, so that I don't end up overwriting my main account's blog with the staging one.
 
 I'm not a web developer, and I'm in awe at what we can achieve nowadays with great tooling available **completely free of charge**.
 
