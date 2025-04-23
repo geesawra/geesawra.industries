@@ -17,8 +17,8 @@ concurrency:
 jobs:
   deploy:
     environment:
-      name: github-pages
-      url: ${{ steps.cf-pages-deploy.outputs.deployment-url }}
+      name: cloudflare-pages
+      url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,6 +35,8 @@ jobs:
           extended: true
       - name: Build website
         run: hugo -d html-output
+      - run: ls -la html-output/*
+      - run: exit 42
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
         with:
