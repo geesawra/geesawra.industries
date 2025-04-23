@@ -1,0 +1,19 @@
+<template id="bluesky-post-template">
+<div class="bskypost">
+    <figure class="side-by-side">
+        <div class="content-wrapper">
+            <img src="/bsky.svg" class="post-image"/>
+            <blockquote data-key="record.text" class="post-text"></blockquote>
+        </div>
+        <figcaption>
+            <cite>
+                <a data-key="url">@<span data-key="username"></span></a>
+            </cite>
+        </figcaption>
+    </figure>
+</div>
+</template>
+
+<bluesky-post>
+    <a href="{{ .Get "src" }}"></a>
+</bluesky-post>

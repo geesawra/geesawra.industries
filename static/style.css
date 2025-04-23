@@ -18,6 +18,46 @@ body {
     color: var(--text);
 }
 
+figcaption {
+    text-align: center;
+}
+
+.bskypost .side-by-side {
+    margin: 0;
+    padding: 0;
+}
+
+.bskypost .content-wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.bskypost .image-container {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 0.5em;
+    width: 80px; /* Fixed width container */
+    flex-shrink: 0; /* Prevent container from shrinking */
+}
+
+.bskypost .post-image {
+    max-width: 7%; /* Image will be at most 100% of its container */
+    height: auto; /* This preserves the aspect ratio */
+    display: block;
+    object-fit: contain; /* Ensures the image maintains its aspect ratio */
+}
+
+.bskypost .post-text {
+    margin: 0;
+    flex: 1;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.bskypost figcaption {
+    margin-top: 10px;
+}
+
 h1 {
     font-family: "Bungee Shade", cursive;
 }

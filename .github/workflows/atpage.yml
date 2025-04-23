@@ -1,7 +1,10 @@
 name: Build and Deploy geesawra.industries
 
 on:
+  pull_request:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -17,9 +20,10 @@ jobs:
   deploy:
     env:
       DEBUG_BUILD: ${{ github.ref == 'refs/heads/main' && 'false' || 'true' }}
+      HUGO_ALLOW_DRAFTS: ${{ github.ref == 'refs/heads/main' && '' || '-D' }}
       RUST_LOG: atpage_publisher=debug
     environment:
-      name: cloudflare-pages
+      name: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
       url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +40,7 @@ jobs:
           hugo-version: "latest"
           extended: true
       - name: Build website
-        run: hugo -d html-output
+        run: hugo -d html-output ${{ env.HUGO_ALLOW_DRAFTS }}
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
         with:
