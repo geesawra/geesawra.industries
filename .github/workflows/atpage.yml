@@ -16,7 +16,7 @@ concurrency:
 jobs:
   deploy:
     env:
-      DEBUG_BUILD: ${{ github.ref == 'refs/heads/main' && 'true' }}
+      DEBUG_BUILD: ${{ github.ref == 'refs/heads/main' && 'false' || 'true' }}
       RUST_LOG: atpage_publisher=debug
     environment:
       name: cloudflare-pages
