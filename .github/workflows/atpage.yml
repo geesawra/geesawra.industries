@@ -37,16 +37,6 @@ jobs:
           extended: true
       - name: Build website
         run: hugo -d html-output
-      - name: Deploy to Cloudflare Pages
-        id: cf-pages-deploy
-        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65
-        with:
-          apiToken: ${{ secrets.CF_PAGES_KEY }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy html-output --project-name=geesawra-industries --commit-dirty=true
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      - run: exit 0
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
         with:
