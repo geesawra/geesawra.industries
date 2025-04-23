@@ -1,0 +1,59 @@
+name: Build and Deploy geesawra.industries
+
+on:
+  push:
+    # branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.cf-pages-deploy.outputs.deployment-url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Checkout atpage
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: geesawra/atpage
+          path: atpage
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@75d2e84710de30f6ff7268e08f310b60ef14033f
+        with:
+          hugo-version: "latest"
+          extended: true
+      - name: Build website
+        run: hugo -d html-output
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
+        with:
+          toolchain: "nightly"
+          cache-workspaces: "atpage -> target"
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Nuke existing site
+        run: cargo -C atpage -Z unstable-options xtask nuke --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+      - name: Upload new site files
+        run: cargo -C atpage -Z unstable-options xtask post --pds ${{ vars.PDS_URL }} --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} --src ../html-output
+      - name: Apply redirects
+        run: cp _redirects atpage/public
+      - name: Deploy to Cloudflare Pages
+        id: cf-pages-deploy
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65
+        with:
+          apiToken: ${{ secrets.CF_PAGES_KEY }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
