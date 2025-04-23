@@ -19,11 +19,12 @@ concurrency:
 jobs:
   deploy:
     env:
+      DEPLOY_ENV: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
       DEBUG_BUILD: ${{ github.ref == 'refs/heads/main' && 'false' || 'true' }}
       HUGO_ALLOW_DRAFTS: ${{ github.ref == 'refs/heads/main' && '' || '-D' }}
       RUST_LOG: atpage_publisher=debug
     environment:
-      name: cloudflare-pages
+      name: ${{ env.DEPLOY_ENV }}
       url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     runs-on: ubuntu-latest
     steps:
