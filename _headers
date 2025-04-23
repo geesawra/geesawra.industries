@@ -1,1 +1,8 @@
-Clear-Site-Data: "*"
+/sw.js:
+    Clear-Site-Data: "storage"
+
+/sw_nomod.js
+    Clear-Site-Data: "storage"
+
+/index.js
+    Clear-Site-Data: "storage"
