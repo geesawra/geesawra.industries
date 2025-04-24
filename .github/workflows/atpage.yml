@@ -58,8 +58,8 @@ jobs:
             --password ${{ secrets.PASSWORD }} \
             --src ../html-output \
             --extra-head ../html-output/opengraph.tags
-      - name: Apply redirects
-        run: cp _redirects atpage/public
+      - name: Copy static files
+        run: cp static/_redirects atpage/public && cp static/bsky.svg atpage/public
       - name: Deploy to Cloudflare Pages
         id: cf-pages-deploy
         uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65
