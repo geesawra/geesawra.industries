@@ -77,4 +77,4 @@ jobs:
           method: "POST"
           contentType: "application/x-www-form-urlencoded"
           data: |
-            'token=${{ secrets.PUSHOVER_TOKEN}}&user=${{ secrets.PUSHOVER_USER }}&message="Deployed!"&url=${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}'
+            'token=${{ secrets.PUSHOVER_TOKEN }}&user=${{ secrets.PUSHOVER_USER }}&message="Deployed!"&url=${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}'
