@@ -6,23 +6,24 @@ author = "geesawra"
 +++
 
 Hi!
-I run my own ATProto PDS, for various reasons:
+
+I run my own [ATProto](https://atproto.com/guides/overview) [PDS](https://atproto.com/guides/glossary#pds-personal-data-server), for various reasons:
 
 - I want to own my data.
-- It's a good way to make the system resilient against centralized infrastructure.
+- It's a good way to make the ATProto network resilient against centralized infrastructure.
 - I'm a nerd.
 
-To do so, and do it cheaply, last year I posed myself a challenge: buy the cheapest VPS during Black Friday deals and host on it.
+To do so, and do it cheaply, last year I set myself a challenge: buy the cheapest VPS during Black Friday deals and host on it.
 
 {{< bskypost src=https://bsky.app/profile/geesawra.industries/post/3lc7bzgmf2s25 >}}
 
-Admittedly it hasn't been a flawless experience --- mostly due to cheap hosting, done on purpose --- but the process gave me the knowledge and confidence to run my main account on it: this post explains how I did it.
+Admittedly it hasn't been a flawless experience --- mostly due to deliberately choosing cheap hosting --- but the process gave me the knowledge and confidence to run my main account on it: this post explains how I did it.
 
 A nice property of PDS hosting is that it doesn't require much resources: the only media you're storing is your own, and the nature of the relay architecture means you get limited traffic aimed directly at your server --- except if you're [hosting your own website](/posts/pds-website.html) on it!
 
 As I'm a huge fan of [Alpine Linux](https://alpinelinux.org/), I installed it through the VPS administration panel, and as expected, it has been perfect.
 
-I use a variation of the [official](https://github.com/bluesky-social/pds) Bluesky [`compose.yml`](https://github.com/bluesky-social/pds/blob/main/compose.yaml) file, that I extracted straight from their repository, as I don't like the `install.sh` approach --- I run many services on my machines, all of them containerized.
+I use a variation of the [official](https://github.com/bluesky-social/pds) Bluesky [`compose.yml`](https://github.com/bluesky-social/pds/blob/main/compose.yaml) file, that I extracted straight from their repository, as I don't like the `install.sh` approach, as it feels brittle and hard to maintain long-term --- I run many services on my machines, all of them containerized.
 
 I kept Caddy as my reverse proxy of choice because it's set-and-forget once configured properly, and the configuration Bluesky provides just works.
 
@@ -30,7 +31,7 @@ I'm not a fan of `containrrr/watchtower`: I've been bitten in the past by unregu
 
 The entire stack is executed on rootless [Podman](https://podman.io/), managed remotely through [Portainer](https://www.portainer.io/).
 
-> My philosophy for this deployment is "do the best you can": posting on Bluesky is _not a vital service_ for me, I'm okay with a few hours of downtime.
+> My philosophy for this deployment is to do the best you can: posting on Bluesky is _not a vital service_ for me, I'm okay with a few hours of downtime.
 
 To keep up to date with new releases I subscribed to Github notifications.
 
