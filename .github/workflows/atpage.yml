@@ -70,11 +70,11 @@ jobs:
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Send Pushover notification
+        if: "!failure()"
         uses: fjogeleit/http-request-action@23ad54bcd1178fcff6a0d17538fa09de3a7f0a4d
         with:
           url: "https://api.pushover.net/1/messages.json"
           method: "POST"
           contentType: "application/x-www-form-urlencoded"
-          if: "!failure()"
           data: |
             'token=${{ secrets.PUSHOVER_TOKEN}}&user=${{ secrets.PUSHOVER_USER }}&message="Deployed!"&url=${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}'
