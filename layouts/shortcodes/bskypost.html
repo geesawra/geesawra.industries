@@ -1,16 +1,20 @@
 <template id="bluesky-post-template">
 <div class="bskypost">
-    <figure class="side-by-side">
-        <div class="content-wrapper">
-            <img src="/bsky.svg" class="post-image"/>
-            <blockquote data-key="record.text" class="post-text"></blockquote>
+    <blockquote>
+        <div id="post-content">
+            <p>
+                <div id="author">
+                    <img data-key="author.avatar" class="post-image"/>
+                    <div id="author-text">
+                        <span data-key="author.displayName">Slow connection? No problem, <a href="{{ .Get "src" }}">link here</a>!</span> • <a data-key="url">@<span data-key="username"></span></a>
+                    </div>
+                </p>
+            </div>
+            <p data-key="record.text" class="post-text"></p>
+            <p style="text-align: right"><a href="{{ .Get "src" }}">Original skeet</a></p>
         </div>
-        <figcaption>
-            <cite>
-                <a data-key="url">@<span data-key="username"></span></a>
-            </cite>
-        </figcaption>
-    </figure>
+    </blockquote>
+    <p></p>
 </div>
 </template>
 
