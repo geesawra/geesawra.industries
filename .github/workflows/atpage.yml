@@ -76,4 +76,4 @@ jobs:
         with:
           url: "https://api.pushover.net/1/messages.json"
           contentType: "application/x-www-form-urlencoded"
-          params: "{\"title\":\"geesawra.industries: ${{ env.DEPLOY_ENV }}\",\"token\":\"${{ secrets.PUSHOVER_TOKEN }}\",\"user\":\"${{ secrets.PUSHOVER_USER }}\",\"message\":\"\\\"Deployed!\\\"\",\"url\":\"${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}\"}"
+          params: "{\"title\":\"geesawra.industries: ${{ env.DEPLOY_ENV }}\",\"token\":\"${{ secrets.PUSHOVER_TOKEN }}\",\"user\":\"${{ secrets.PUSHOVER_USER }}\",\"html\":\"1\",\"message\":\"Deployed <b>${{ github.ref }}<\/b>!\",\"url\":\"${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}\"}"
