@@ -32,12 +32,6 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           clean: false
-      - name: Checkout atpage
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          clean: false
-          repository: geesawra/atpage
-          path: atpage
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@75d2e84710de30f6ff7268e08f310b60ef14033f
         with:
@@ -45,6 +39,11 @@ jobs:
           extended: true
       - name: Build website
         run: hugo -d html-output ${{ env.HUGO_ALLOW_DRAFTS }}
+      - name: Cache Hugo build
+        uses: actions/cache@v3
+        with:
+          path: html-output
+          key: build-${{ github.sha }}
 
   deploy:
     needs: [build]
@@ -58,11 +57,22 @@ jobs:
       url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Restore Hugo build
+        uses: actions/cache@v3
+        with:
+          path: html-output
+          key: build-${{ github.sha }}
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
         with:
           toolchain: "nightly"
           cache-workspaces: "atpage -> target"
+      - name: Checkout atpage
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          clean: false
+          repository: geesawra/atpage
+          path: atpage
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Nuke existing site
