@@ -44,6 +44,11 @@ jobs:
         with:
           path: html-output
           key: build-${{ github.sha }}
+      - name: Cache redirects file
+        uses: actions/cache@v3
+        with:
+          path: static/_redirects
+          key: redirects-${{ github.sha }}
 
   deploy:
     needs: [build]
@@ -62,6 +67,11 @@ jobs:
         with:
           path: html-output
           key: build-${{ github.sha }}
+      - name: Restore redirects file
+        uses: actions/cache@v3
+        with:
+          path: static/_redirects
+          key: redirects-${{ github.sha }}
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
         with:
