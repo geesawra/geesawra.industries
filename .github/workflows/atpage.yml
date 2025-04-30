@@ -71,11 +71,13 @@ jobs:
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Grab associated PR URL
-        uses: cloudposse-github-actions/get-pr@main
+        uses: cloudposse-github-actions/get-pr@ba7d9e7db690abb3c5b84f4337cd51e75f7cfb71
         id: pr
+        with:
+          id: ${{ github.event.number }}
       - name: Send Pushover notification
         if: "!failure()"
         uses: dkershner6/post-api-call-action@dd657422aa9ff4a29bf01fb126376222853f31ac
         with:
           url: "https://api.pushover.net/1/messages.json"
-          params: '{"title":"geesawra.industries: ${{ env.DEPLOY_ENV }}","token":"${{ secrets.PUSHOVER_TOKEN }}","user":"${{ secrets.PUSHOVER_USER }}","html":"1","message":"Deployed <a href="${{ steps.pr.outputs.url }}"><b>${{ steps.pr.outputs.title }}</b></a>!","url":"${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}"}'
+          params: '{"title":"geesawra.industries: ${{ env.DEPLOY_ENV }}","token":"${{ secrets.PUSHOVER_TOKEN }}","user":"${{ secrets.PUSHOVER_USER }}","html":"1","message":"Deployed! <a href=\"${{ steps.pr.outputs.url }}\"><b>${{ steps.pr.outputs.title }}</b></a>","url":"${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}"}'
