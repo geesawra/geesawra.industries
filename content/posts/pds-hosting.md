@@ -13,31 +13,35 @@ I run my own [ATProto](https://atproto.com/guides/overview) [PDS](https://atprot
 - It's a good way to make the ATProto network resilient against centralized infrastructure.
 - I'm a nerd.
 
-To do so, and do it cheaply, last year I set myself a challenge: buy the cheapest VPS during Black Friday deals and host on it.
+Last year I set myself a challenge: buy the cheapest VPS during the Black Friday deals and host my PDS on it.
 
 {{< bskypost src=https://bsky.app/profile/geesawra.industries/post/3lc7bzgmf2s25 >}}
 
-Admittedly it hasn't been a flawless experience --- mostly due to deliberately choosing cheap hosting --- but the process gave me the knowledge and confidence to run my main account on it: this post explains how I did it.
+It hasn't been a flawless experience --- mostly due to deliberately choosing cheap hosting --- but the process gave me the knowledge and confidence to host my main ATProto account on it: this post explains how I did it.
 
-A nice property of PDS hosting is that it doesn't require much resources: the only media you're storing is your own, and the nature of the relay architecture means you get limited traffic aimed directly at your server --- except if you're [hosting your own website](/posts/pds-website.html) on it!
+PDS hosting doesn't require many resources: posts are lightweight, the only media you're storing is your own, and the nature of the relay architecture means you have limited traffic aimed directly at your server --- except if you're [hosting your own website](/posts/pds-website.html) on it!
 
-As I'm a huge fan of [Alpine Linux](https://alpinelinux.org/), I installed it through the VPS administration panel, and as expected, it has been perfect.
+As a huge [Alpine Linux](https://alpinelinux.org/) fan, I installed it through the VPS administration panel, and as expected, it has performed flawlessly.
 
-I use a variation of the [official](https://github.com/bluesky-social/pds) Bluesky [`compose.yml`](https://github.com/bluesky-social/pds/blob/main/compose.yaml) file, that I extracted straight from their repository, as I don't like the `install.sh` approach, as it feels brittle and hard to maintain long-term --- I run many services on my machines, all of them containerized.
+The entire stack is executed on rootless [Podman](https://podman.io/), managed remotely through [Portainer](https://www.portainer.io/): I use a variation of the [official](https://github.com/bluesky-social/pds) Bluesky [`compose.yml`](https://github.com/bluesky-social/pds/blob/main/compose.yaml) file that I extracted their repository.
 
-I kept Caddy as my reverse proxy of choice because it's set-and-forget once configured properly, and the configuration Bluesky provides just works.
+I don't like the `install.sh` approach as it feels brittle and hard to maintain long-term: I run many services on my machines, all of them containerized, to avoid messing with the host configuration files and runtime.
 
-I'm not a fan of `containrrr/watchtower`: I've been bitten in the past by unregulated upgrades, mostly due to pulling Docker images with the `latest` flag, and I'd like not to repeat that experience anymore.
+I kept Caddy as my reverse proxy of choice because it's set-and-forget once configured properly, and the setup Bluesky provides just works.
 
-The entire stack is executed on rootless [Podman](https://podman.io/), managed remotely through [Portainer](https://www.portainer.io/).
+Bluesky suggests the use of `containrrr/watchtower`, but I'd advise against it: I've been bitten in the past by indiscriminate upgrades, mostly due to pulling Docker images with the `latest` tag, and I'd like not to repeat that experience anymore.
+
+Instead of automated updates, I subscribed to Bluesky's Github notifications to keep myself up to date with new releases.
 
 > My philosophy for this deployment is to do the best you can: posting on Bluesky is _not a vital service_ for me, I'm okay with a few hours of downtime.
 
-To keep up to date with new releases I subscribed to Github notifications.
+So far the PDS software seems to be managed in a sane way, following [semver](https://semver.org) best practices.
 
-So far updates have been smooth, I never had issues stemming from `docker pull`ing every once in a while, and the only true issue I had was due to bad clock on the host machine: **always run an NTP daemon**!
+I never had issues stemming from `docker pull`ing every once in a while.
 
-To further mitigate downtime and data loss, I backup the data directory on [Borgbase](https://borgbase.com) with [Restic](https://restic.net/) every few hours --- I also schedule regular scrubs and checks with the same Docker image.
+The only problem I encountered was due to the host system clock losing track of time, which I promptly solved by enabling an NTP daemon.
+
+To mitigate the risk of data loss, I backup the data directory on [Borgbase](https://borgbase.com) with [Restic](https://restic.net/) every few hours --- I also schedule regular scrubs and checks with the same Docker image.
 
 Without further ado, here's the `compose.yml` file:
 
@@ -117,19 +121,17 @@ services:
       TZ: Europe/Berlin
 ```
 
-Two notable features in this `compose.yml`:
+There are two notable features in this `compose.yml`:
 
-- As `pds` needs several environment variables to be configured, I'm storing them in a `stack.env` file, generated by Portainer, to set them.
+- As `pds` is configured through environment variables, I'm storing them in a `stack.env` --- this file is auto-generated by Portainer, managed through its web UI.
 - I'm binding the host volume path to `${DATADIR}`, which is defined in `stack.env`.
 
-Running a PDS is not exactly easy, but should be viable for anyone with experience with containers and with reasonable comfort with the Linux shell.
+Running a PDS isn't exactly a walk in the park, but if you've played around with containers before and feel at home in the Linux shell, you should be good to go.
 
 On a positive note, migrating my account from `bsky.social` to my own PDS has been a great experience, and it's certainly something the ActivityPub folks should look into for their next protocol iteration.
 
 {{< bskypost src=https://bsky.app/profile/geesawra.industries/post/3l772nfieyk2t >}}
 
 {{< bskypost src=https://bsky.app/profile/geesawra.industries/post/3l772vddndc2t >}}
-
-As you can see, I was considerably salty :^)
 
 Until next time!
