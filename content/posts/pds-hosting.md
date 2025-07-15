@@ -1,7 +1,7 @@
 +++
 title = 'How I run my ATProto PDS'
 date = 2025-04-29T12:51:40+02:00
-draft = true
+draft = false
 author = "geesawra"
 +++
 
