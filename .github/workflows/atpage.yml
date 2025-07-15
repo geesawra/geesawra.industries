@@ -35,7 +35,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@75d2e84710de30f6ff7268e08f310b60ef14033f
         with:
-          hugo-version: "latest"
+          hugo-version: "0.131.0"
           extended: true
       - name: Build website
         run: hugo -d html-output ${{ env.HUGO_ALLOW_DRAFTS }}
