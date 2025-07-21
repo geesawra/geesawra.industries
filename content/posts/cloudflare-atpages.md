@@ -25,7 +25,7 @@ A neat feature of Pages is that you can specify custom redirects by including a 
 
 This is how I do it with Caddy v2:
 
-```
+````
 geesawra.industries {
   handle /at/* {
           root * /geesawra.industries
@@ -36,11 +36,11 @@ geesawra.industries {
 ```
 
 This is how I do it with `_redirects`:
+````
 
-```
 /at/* / 200
-```
 
+```
 By moving to Cloudflare Pages I also gained access to very business tooling, like staging and production environments: whatever isn't the `main` branch is automatically treated as staging, and you also get a deploy-specific URL to go look at your staging website!
 
 I use GitHub environments to have all the fancy UI/UX goodies, like a "click here to see your staging prod" button in PRs, or the deus ex machina, branch protection rules.
@@ -54,3 +54,4 @@ I [open-sourced](https://github.com/geesawra/geesawra.industries) this blog, inc
 I should also document `atpage`, shouldn't I? `:^)`
 
 Until next time!
+```
