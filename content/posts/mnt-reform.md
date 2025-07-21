@@ -56,6 +56,11 @@ The flipside is there's basically zero keyboard flex, keycaps and fully configur
 
 I'm going to experiment in the future about this, especially around sound dampening and isolation.
 
+## Develop this
+
+What's your current config?
+What are you doing with it? What's an hacking laptop?
+What is a personal laptop after all?
 Talk about thermals a bit
 Maybe briefly about the display
 How long does the battery last?
