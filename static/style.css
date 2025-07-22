@@ -18,6 +18,20 @@ body {
     color: var(--text);
 }
 
+.article-meta {
+    text-align: left;
+    background: initial;
+    line-height: 0.5;
+}
+
+#author-data {
+    text-align: right;
+}
+
+.menu li a {
+    color: var(--text);
+}
+
 figcaption {
     text-align: center;
 }
