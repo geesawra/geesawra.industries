@@ -56,15 +56,21 @@ The flipside is there's basically zero keyboard flex, keycaps and fully configur
 
 I'm going to experiment in the future about this, especially around sound dampening and isolation.
 
+The keyboard has a small OLED screen on it, that is activated by pressing the `Circle` button.
+
+You can access various system statistics through it, like battery status down to the individual cell, or control the RGB matrix color and hue, but most importantly it’s the main way to __turn the device on and off__!
+
+Recall the Reform has upgradeable SoC by means of external boards: none of them have an universal way to turn on and off, so the solution MNT implemented is to build their own, which is connected straight to the board’s power rail —— turning the device off through the operating system works as long as it’s running the Reform device driver, while hard shutdowns are achieved by an OLED display entry. 
+
 ## Develop this
 
-What's your current config?
-What are you doing with it? What's an hacking laptop?
-What is a personal laptop after all?
-Talk about thermals a bit
-Maybe briefly about the display
-How long does the battery last?
-What's up with that displayy on the keeb?
-Add a photo of the thing
-Plans for the future? Chimera linux?
-What's up with the upside down usb ports lmao
+- What's your current config?
+- What are you doing with it? What's an hacking laptop?
+- What is a personal laptop after all?
+- Talk about thermals a bit
+- Maybe briefly about the display
+- How long does the battery last?
+- What's up with that displayy on the keeb? Done
+- Add a photo of the thing
+- Plans for the future? Chimera linux?
+- What's up with the upside down usb ports lmao
