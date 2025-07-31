@@ -22,7 +22,7 @@ On paper, the MNT Reform Classic (henceforth referred to as Reform) is everythin
 
 I picked the Classic because of its form factor: matte black, boxy, with some silver accents here and there and a transparent plexiglass bottom cover.
 
-<img src="/pictures/reform.jpg" class="image"/>
+{{< image src=/pictures/reform.jpg alt="MNT Reform in all its beauty.">}}
 
 With my credit card on hand, I carefully selected the top-specced build and pressed buy: the wait was on.
 
@@ -76,7 +76,7 @@ The battery configuration in Reform Classics isn't made of standard Li-Ion, but 
 
 An immediate downside of this kind of battery chemistry is that it's less power dense --- it lasts less than Li-ion ones of comparable size --- which means Reform Classic battery life hovers around 3-5 hours depending on display and keyboard backlight usage.
 
-<img src="/pictures/reform-underside.jpg" class="image"/>
+{{< image src=/pictures/reform-underside.jpg alt="Reform underside --- look at those batteries!" >}}
 
 But! They're user-replaceable, can withstand more charging cycles than Li-ion and the chance of them catching on fire is close to zero: pretty nice property for a device that you can disassemble and reassemble on your own.
 
