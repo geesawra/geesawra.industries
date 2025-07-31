@@ -18,6 +18,12 @@ body {
     color: var(--text);
 }
 
+.image {
+    max-width: 80%;
+    display: block;
+    margin: auto;
+}
+
 .article-meta {
     text-align: left;
     background: initial;
@@ -57,10 +63,6 @@ figcaption {
 
 .bskypost figcaption {
     margin-top: 10px;
-}
-
-h1 {
-    font-family: "Bungee Shade", cursive;
 }
 
 hr {
@@ -105,6 +107,10 @@ code {
     margin: auto;
     text-align: center;
 }
+
+/* .title { */
+    /* font-size: clamp(1rem, -1.5rem + 8vw, 3rem); */
+/* } */
 
 #avatar {
     width: 30%;
