@@ -24,23 +24,25 @@ I picked the Classic because of its form factor: matte black, boxy, with some si
 
 {{< image src=/pictures/reform.jpg alt="MNT Reform in all its beauty.">}}
 
-With my credit card on hand, I carefully selected the top-specced build and pressed buy: the wait was on.
+With my credit card on hand, I carefully selected the top-spec'd build and pressed buy: the wait was on.
 
 And I waited, and waited... It took almost a year for the thing to be built, tested and delivered to my home, but hey it's here!
 
-I think my order came at an unfortunate time: MNT was in the middle of shipping the first iteration of their Pocket Reform, which was powered by the same SoC I picked, which was also backordered for months --- on top of that they decided to implement some hardware bugfixes in the motherboard design, and add USB-C Power Delivery charging support.
+I think my order came at an unfortunate time: MNT was in the middle of shipping the first iteration of their Pocket Reform, which was powered by the same SoC[^soc] I picked, which was also backordered for months --- on top of that they decided to implement some hardware bugfixes in the motherboard design, and add USB-C Power Delivery charging support.
+
+[^soc]: System-On-Chip, the silicon incorporating CPU, GPU and sometimes also RAM and AI accelerators.
 
 Admittedly I was a little frustrated with the ever-prolonging waiting line for this laptop, and was _very_ close to just call it a nice experiment and just cancel my order, but ultimately I'm happy I stuck with it and just waited a little more.
 
 The MNT overall has been great, always answering to emails and making sure I was still happy with my order: I can't blame a small artisan shop for being late on an incredibly complex and custom piece of hardware!
 
-Hardware-wise the laptop is almost flawless, except for an issue with the display which is due to a bad interface soldering job done at the factory[^display] which I'm sure MNT will take care of.
+Hardware-wise the laptop is almost flawless, except for an issue with the display which is due to a bad interface soldering job done at the factory[^display]: this causes horizontal bands and color distortion when adjusting the display -- MNT is aware of this issue and I'm sure they'll send over a replacement part soon.
 
-[^display]: While MNT tests devices before sending them out, I feel this one is so subtle and random they couldn't diagnose this easily.
+[^display]: While MNT tests devices before sending them out, I feel this issue is so subtle and random that they couldn't diagnose this easily.
 
-While the Reform Linux distribution --- based on Debian --- is stable for good day-to-day usage, and there's enough juice in this RK3588 SoC to actually do real work[^realwork] on this thing, I feel the general community isn't yet accustomed to ARM processors on the desktop.
+While the Reform Linux distribution --- based on Debian --- is stable for good day-to-day usage, and there's enough juice in this Rockchip RK3588 SoC to actually do real work[^realwork] on this thing, I feel the general community isn't yet accustomed to ARM processors on the desktop.
 
-[^realwork]: Except Rust, its LSP is too heavy for this SoC in large projects.
+[^realwork]: Except Rust, `rust-analyzer` is too heavy for this SoC in large projects.
 
 Some software is simply not packaged for ARM, and the driver situation is considerably worse than x86 due to embedded components not shining for upstream Linux support except for the bare minimum needed for server usage.
 
@@ -52,39 +54,43 @@ I can't blame anybody for this -- except for the hardware manufacturers -- as th
 
 A funny thing about this laptop is the keyboard.
 
-The layout is custom but not quite, but I like it! I particularly like their choice of splitting the space bar into three separate zones.
+The layout is custom but not quite, but I like it! I particularly like their choice of splitting the space bar into three separate zones, alleviating the wobbly spacebar issue.
 
-Unfortunately the switches aren't really that good in my opinion: they are clearly not lubed, they cling and clang when you mash onto them harder, and overall they sound like one the first gamer-oriented mechanical keyboards.
+Unfortunately the switches aren't really that good in my opinion: they are clearly not lubed, they cling and clang when you mash onto them harder, and overall they sound like one of the first gamer-oriented mechanical keyboards.
+
+I'm going to experiment in the future about this, especially around sound dampening and isolation.
 
 The flipside is there's basically zero keyboard flex, keycaps and fully configurable RGB lighting are **really good**[^lights], and since it's open hardware I could just pop the keyboard out, replace the switches and call it a day.
 
 [^lights]: This is the best RGB lighting I've ever seen, gaming devices manufacturers should take notes!
 
-I'm going to experiment in the future about this, especially around sound dampening and isolation.
+The pointing device I chose on my Reform is the 5-button trackball: it's fine, works okay if it's not dirty -- if I had the chance to choose again I would probably go for the trackpad though.
 
 The keyboard has a small OLED screen on it, that is activated by pressing the `Circle` button.
 
 You can access various system statistics through it, like battery status down to the individual cell, or control the RGB matrix color and hue, but most importantly it’s the main way to **turn the device on and off**!
 
-Recall the Reform has upgradeable SoC by means of external boards: none of them have an universal way to turn on and off, so the solution MNT implemented is to build their own, which is connected straight to the board’s power rail —— turning the device off through the operating system works as long as it’s running the Reform device driver, while hard shutdowns are achieved by an OLED display entry.
+Recall the Reform has upgradeable SoC by means of external boards: none of them have an universal way to turn on and off, so the solution MNT implemented is to build their own, which is connected straight to the board’s power rail -- turning the device off through the operating system works as long as it’s running the Reform device driver, while hard shutdowns are achieved by an OLED display entry.
 
 ---
 
 Even though I love this laptop, there are some downsides, like battery life.
 
-The battery configuration in Reform Classics isn't made of standard Li-Ion, but rather 8 LiFePo4 cells connected on the underside of the motherboard.
+The battery configuration in Reform Classics isn't made of standard Li-Ion, but rather 8 LiFePo4 (lithium iron phosphate) cells connected on the underside of the motherboard.
 
 An immediate downside of this kind of battery chemistry is that it's less power dense --- it lasts less than Li-ion ones of comparable size --- which means Reform Classic battery life hovers around 3-5 hours depending on display and keyboard backlight usage.
 
 {{< image src=/pictures/reform-underside.jpg alt="Reform underside --- look at those batteries!" >}}
 
-But! They're user-replaceable, can withstand more charging cycles than Li-ion and the chance of them catching on fire is close to zero: pretty nice property for a device that you can disassemble and reassemble on your own.
+But! They're user-replaceable, can withstand more charging cycles than Li-ion and the chance of them catching on fire is close to zero -- a pretty nice property for a device that you can disassemble and reassemble on your own.
 
 ---
 
-The display is nice: it's not big brand-level, but It's a good quality 12" 1080p display, running at 70hz refresh rate.
+The display is nice: it's not big brand-level, but It's a good quality 12.5" 1080p display (approximately 176 PPI, not MacBook-level but quite good), running at 70hz refresh rate.
 
 It tilts well over 180 degrees, and by this metric alone it's a better display than most laptops.
+
+I love the display hinges MNT chose: they're sturdy and hard enough that they allow you to open the lid with a single finger.
 
 ---
 
@@ -92,9 +98,9 @@ I would say the Achille's heel of this device is thermals.
 
 See, the Reform is a fanless device, relying on nooks and crannies and the aluminum chassis on the device itself to cool itself.
 
-With a powerful SoC like the RK3588 it becomes in my opinion too hot, up to the keyboard layer at times.
+With a powerful SoC like the RK3588 it becomes in my opinion too hot, making writing uncomfortable at times.
 
-I believe a small Noctua fan could do a lot to make this laptop more manageable to handle under heavy load[^fan], that said, the RK3588 is not the most power-efficient SoC out there a more moder platform could also help greatly.
+I believe a small Noctua fan could do a lot to make this laptop more manageable to handle under heavy load[^fan]. That said, the RK3588 is not the most power-efficient SoC out there: more modern platform could also help greatly.
 
 [^fan]: Open hardware! Do it yourself! Hack the world!
 
@@ -110,7 +116,7 @@ The RK3588 SoC supports EDK2, which is an open-source reference implementation o
 
 Too bad there aren't many distros supporting the Reform out of the box, and installing UEFI is kind of a one-way street as it requires formatting your disk(s).
 
-RK3588 booting is weird in by itself as well[^rkboot].
+The RK3588 booting process is weird in by itself as well[^rkboot], requiring various bits of proprietary blobs and binaries to create a bootable image.
 
 [^rkboot]: I have notes on how Rockchip devices boot, I may publish them sooner or later.
 
@@ -118,7 +124,7 @@ Reform has an NVMe slot that works really well --- reaching roughly ~2GB/s, ~800
 
 Rockchip devices can boot from either SD or eMMC, so MNT had to engineer a way to boot _the Linux kernel_ from the embedded eMMC, but load the root filesystem from the NVMe drive.
 
-It's an okay solution, but not the most secure: even with an encrypted drive, the initramfs and kernel are left unencrypted.
+It's an okay solution, but not the most secure: even if you encrypt your main drive, the initramfs and kernel must remain unencrypted on the eMMC, potentially creating security vulnerabilities."
 
 ---
 
@@ -134,7 +140,7 @@ Do I regret buying an unconventional device? No.
 
 Would I buy one to use as my _only_ computer? No.
 
-This is my hacking laptop, where I write my personal software, on which I log in with my alt accounts, talk on IRC with people, and overall have a good time away from daily obbligations and perfectionism.
+This is my hacking laptop, where I write my personal software, on which I log in with my alt accounts, talk on IRC with people, and overall have a good time away from daily obligations and perfectionism.
 
 It makes computing fun again: rough edges are a feature, encouraging you to have your way at rounding them until **they** fit **your** style.
 
