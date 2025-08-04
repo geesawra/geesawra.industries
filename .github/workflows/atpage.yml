@@ -85,7 +85,7 @@ jobs:
           GH_TOKEN: "${{ github.token }}"
         run: |
           id=$(gh api "repos/{owner}/{repo}/deployments" \
-            -f "ref=${{ github.ref_name }}" \
+            -f "ref=${{ github.ref }}" \
             -F "auto_merge=false" \
             -F "required_contexts[]" \
             -f "environment=${{ env.DEPLOY_ENV }}" \
