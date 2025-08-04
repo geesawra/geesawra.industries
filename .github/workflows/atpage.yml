@@ -112,7 +112,7 @@ jobs:
         env:
           GH_TOKEN: "${{ github.token }}"
         run: |
-          gh api "repos/{owner}/{repo}/deployments/${{ steps.github_deployment.outputs.id }}/statuses" \
+          gh api "repos/{owner}/{repo}/deployments/${{ env.DEPLOY_ENV }}/statuses" \
             -f "state=${{ steps.deploy.outcome == 'success' && 'success' || 'failure' }}" \
             -f "environment_url=${{ steps.deploy.outputs.deployment-url }}" \
             -F "auto_inactive=true"
