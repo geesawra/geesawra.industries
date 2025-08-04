@@ -51,6 +51,9 @@ jobs:
           key: redirects-${{ github.sha }}
 
   deploy:
+    permissions:
+      contents: read
+      deployments: write
     needs: [build]
     env:
       DEBUG_BUILD: ${{ github.ref == 'refs/heads/main' && 'false' || 'true' }}
