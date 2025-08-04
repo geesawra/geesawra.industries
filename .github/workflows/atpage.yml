@@ -60,8 +60,9 @@ jobs:
       HUGO_ALLOW_DRAFTS: ${{ github.ref == 'refs/heads/main' && '' || '-D' }}
       RUST_LOG: atpage_publisher=debug
       DEPLOY_ENV_PRETTY: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
+      DEPLOY_ENV: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
     environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
+      name: ${{ env.DEPLOY_ENV }}
       url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     runs-on: ubuntu-latest
     steps:
@@ -106,7 +107,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_PAGES_KEY }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
+          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true --env=${{ env.DEPLOY_ENV }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   notify:
