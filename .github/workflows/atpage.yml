@@ -79,6 +79,20 @@ jobs:
         with:
           path: static/_redirects
           key: redirects-${{ github.sha }}
+      - name: Create GitHub deployment
+        id: github_deployment
+        env:
+          GH_TOKEN: "${{ github.token }}"
+        run: |
+          id=$(gh api "repos/{owner}/{repo}/deployments" \
+            -f "ref=${{ github.ref_name }}" \
+            -F "auto_merge=false" \
+            -F "required_contexts[]" \
+            -f "environment=${{ env.DEPLOY_ENV }}" \
+            -F "production_environment=${{ github.ref_name == 'main' && 'true' || 'false' }}" \
+            -q ".id"
+          )
+          echo "id=${id?}" >> "$GITHUB_OUTPUT"
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4
         with:
@@ -111,6 +125,15 @@ jobs:
           apiToken: ${{ secrets.CF_PAGES_KEY }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
+      - name: Create GitHub deployment status
+        if: always() && steps.github_deployment.outcome == 'success'
+        env:
+          GH_TOKEN: "${{ github.token }}"
+        run: |
+          gh api "repos/{owner}/{repo}/deployments/${{ steps.github_deployment.outputs.id }}/statuses" \
+            -f "state=${{ steps.deploy.outcome == 'success' && 'success' || 'failure' }}" \
+            -f "environment_url=${{ steps.deploy.outputs.deployment-url }}" \
+            -F "auto_inactive=false"
 
   notify:
     needs: [build, deploy]
