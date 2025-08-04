@@ -25,7 +25,6 @@ jobs:
       DEPLOY_ENV_PRETTY: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
     environment:
       name: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
-      url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -107,7 +106,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_PAGES_KEY }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true --env=${{ env.DEPLOY_ENV }}
+          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true --branch=${{ env.DEPLOY_ENV }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   notify:
@@ -120,7 +119,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
-      url: ${{ steps.cf-pages-deploy.outputs.pages-deployment-alias-url }}
     steps:
       - name: Grab associated PR URL
         uses: cloudposse-github-actions/get-pr@ba7d9e7db690abb3c5b84f4337cd51e75f7cfb71
