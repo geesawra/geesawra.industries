@@ -107,6 +107,15 @@ jobs:
           apiToken: ${{ secrets.CF_PAGES_KEY }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
+      - name: Create GitHub deployment status
+        if: always() && steps.github_deployment.outcome == 'success'
+        env:
+          GH_TOKEN: "${{ github.token }}"
+        run: |
+          gh api "repos/{owner}/{repo}/deployments/${{ steps.github_deployment.outputs.id }}/statuses" \
+            -f "state=${{ steps.deploy.outcome == 'success' && 'success' || 'failure' }}" \
+            -f "environment_url=${{ steps.deploy.outputs.deployment-url }}" \
+            -F "auto_inactive=true"
 
   notify:
     needs: [build, deploy]
