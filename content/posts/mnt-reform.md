@@ -64,6 +64,8 @@ The flipside is there's basically zero keyboard flex, keycaps and fully configur
 
 [^lights]: This is the best RGB lighting I've ever seen, gaming devices manufacturers should take notes!
 
+{{< image src=/pictures/reform-circle.jpg alt="The Reform `Circle` button.">}}
+
 The pointing device I chose on my Reform is the 5-button trackball: it's fine, works okay if it's not dirty -- if I had the chance to choose again I would probably go for the trackpad though.
 
 The keyboard has a small OLED screen on it, that is activated by pressing the `Circle` button.
