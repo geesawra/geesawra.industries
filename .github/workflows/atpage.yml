@@ -106,8 +106,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_PAGES_KEY }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true --branch=${{ env.DEPLOY_ENV }}
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy atpage/public --project-name=geesawra-industries --commit-dirty=true
 
   notify:
     needs: [build, deploy]
