@@ -90,7 +90,27 @@ code {
     --bg: #fff;
     --dashed: #ddd;
     --menu: #eee;
+    --code: #f9f9f9;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1e1e;
+    --text: #fbfbfb;
+    --codetext: #ffb5c7;
+    --accent: #3daff3;
+    --textbg: #353e42;
+    --menu: gray;
+    --code: #555555;
+  }
+}
+
+code {
+    background: var(--code);
+}
+
+:link { color: var(--text) }
+:visited { color: var(--text)}
 
 #content {
     margin: auto;
