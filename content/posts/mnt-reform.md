@@ -56,7 +56,7 @@ I can't blame anybody for this -- except for the hardware manufacturers -- as th
 
 A funny thing about this laptop is the keyboard.
 
-The layout is custom but not quite, I like it! Their choice of splitting the space bar into three separate zone alleviates the wobbly spacebar issue.
+The layout is custom but not quite, I like it! Their choice of splitting the space bar into three separate zones alleviates the wobbly spacebar issue.
 
 Unfortunately the switches aren't really _that good_ in my opinion: they are not factory lubed, they cling and clang when you mash onto them harder, and overall they sound like one of the first gamer-oriented mechanical keyboards.
 
