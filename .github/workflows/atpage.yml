@@ -134,18 +134,6 @@ jobs:
             -f "state=${{ steps.deploy.outcome == 'success' && 'success' || 'failure' }}" \
             -f "environment_url=${{ steps.deploy.outputs.deployment-url }}" \
             -F "auto_inactive=false"
-
-  notify:
-    needs: [build, deploy]
-    env:
-      DEBUG_BUILD: ${{ github.ref == 'refs/heads/main' && 'false' || 'true' }}
-      HUGO_ALLOW_DRAFTS: ${{ github.ref == 'refs/heads/main' && '' || '-D' }}
-      RUST_LOG: atpage_publisher=debug
-      DEPLOY_ENV_PRETTY: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'cloudflare-pages' || 'cloudflare-pages-staging' }}
-    steps:
       - name: Grab associated PR URL
         uses: cloudposse-github-actions/get-pr@ba7d9e7db690abb3c5b84f4337cd51e75f7cfb71
         id: pr
