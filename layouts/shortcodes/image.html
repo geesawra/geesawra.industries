@@ -2,7 +2,7 @@
 {{- $webp := $img.Resize (printf "%dx%d webp photo q30" $img.Width $img.Height) }}
 <picture>
   <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-  <a href={{relURL (.Get "src")}}>
+  <a href={{ $img.RelPermalink }}>
     <img src="{{ $webp.RelPermalink }}" loading="lazy" class="image" alt="{{ .Get "alt" | markdownify }}">
     <figcaption style="margin-top: 15px; font-style: italic; font-size: 0.9rem;">{{.Get "alt" | markdownify}}</figcaption>
   </a>
