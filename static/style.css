@@ -18,6 +18,28 @@ body {
     color: var(--text);
 }
 
+.image {
+    max-width: 80%;
+    display: block;
+    margin: auto;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 0.75rem gray);
+}
+
+.article-meta {
+    text-align: left;
+    background: initial;
+    line-height: 0.5;
+}
+
+#author-data {
+    text-align: right;
+}
+
+.menu li a {
+    color: var(--text);
+}
+
 figcaption {
     text-align: center;
 }
@@ -43,10 +65,6 @@ figcaption {
 
 .bskypost figcaption {
     margin-top: 10px;
-}
-
-h1 {
-    font-family: "Bungee Shade", cursive;
 }
 
 hr {
@@ -91,6 +109,10 @@ code {
     margin: auto;
     text-align: center;
 }
+
+/* .title { */
+    /* font-size: clamp(1rem, -1.5rem + 8vw, 3rem); */
+/* } */
 
 #avatar {
     width: 30%;
