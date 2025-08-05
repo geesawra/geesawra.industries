@@ -22,6 +22,8 @@ body {
     max-width: 80%;
     display: block;
     margin: auto;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 0.75rem gray);
 }
 
 .article-meta {

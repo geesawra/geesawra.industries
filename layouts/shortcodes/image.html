@@ -4,6 +4,6 @@
   <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
   <a href={{.Get "src"}}>
     <img src="{{ $webp.RelPermalink }}" loading="lazy" class="image" alt="{{ .Get "alt" | markdownify }}">
-    <figcaption style="font-style: italic; font-size: 0.9rem;">{{.Get "alt" | markdownify}}</figcaption>
+    <figcaption style="margin-top: 15px; font-style: italic; font-size: 0.9rem;">{{.Get "alt" | markdownify}}</figcaption>
   </a>
 </picture>
