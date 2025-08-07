@@ -61,7 +61,7 @@ fi
 # Generate and save critique
 outfile="$crit_dir/${bname}_${next_idx}.md"
 temp_outfile=$(mktemp)
-cat "$fname" | llm prompt -u "$prompt" -s "$sm" -m claude-3.7-sonnet > "$temp_outfile"
+cat "$fname" | llm prompt -u "$prompt" -s "$sm" > "$temp_outfile"
 llm_status=$?
 
 # Check if the command succeeded
